@@ -1,0 +1,52 @@
+
+Pattern_Chosen=Patterns(:,:,ChosenPatternIndex);
+
+
+
+[V,D] = eig((TV_nm_Final));
+Eigens = diag(D);
+
+
+Eig_1=V(:,NN);
+
+
+Retrieved_pattern_1=reshape(Eig_1,sqrt(NN),sqrt(NN));
+Retrieved_pattern_1=sign(Retrieved_pattern_1)
+Retrieved_pattern_1_inv=-(Retrieved_pattern_1)
+
+
+
+Error_pattern=Retrieved_pattern_1.*Pattern_Chosen;
+Error_pattern=(Error_pattern+1)/2;
+figure
+imagesc(Error_pattern)
+
+Error=sum(sum(Error_pattern));
+Error_N=Error/NN;
+
+
+Error_pattern_inv=Retrieved_pattern_1_inv.*Pattern_Chosen;
+Error_pattern_inv=(Error_pattern_inv+1)/2;
+
+
+
+Error_inv=sum(sum(Error_pattern_inv));
+Error_N_inv=Error_inv/NN;
+Error_N_inv
+
+[Error_Final pos]=min([Error_N Error_N_inv]);
+Inversion=logical(pos-1);
+
+% figure
+% subplot(1,2,1)
+% imagesc(Pattern_Chosen)
+% title('Original Pattern $\phi$','interpreter',' latex')
+% subplot(1,2,2)
+% imagesc(Retrieved_pattern_1)
+% title('pattern retrieved from the $J_{nm}$','interpreter',' latex')
+% 
+% figure
+% subplot(1,2,1)
+% imagesc(Error_pattern)
+% subplot(1,2,2)
+% imagesc(Error_pattern_inv)
